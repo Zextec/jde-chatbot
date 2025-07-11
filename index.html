@@ -1,0 +1,52 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <title>JD Edwards ChatGPT Assistant</title>
+  <style>
+    body { font-family: Arial; margin: 20px; background: #f4f4f4; }
+    #chatbox { height: 400px; overflow-y: auto; border: 1px solid #ccc; padding: 10px; background: #fff; }
+    input, button { margin-top: 10px; padding: 10px; width: 80%; font-size: 16px; }
+    button { width: 18%; }
+  </style>
+</head>
+<body>
+  <h2>JD Edwards ChatGPT Assistant</h2>
+  <div id="chatbox"></div>
+  <input type="text" id="userInput" placeholder="Ask a question..." />
+  <button onclick="sendMessage()">Send</button>
+
+  <script>
+    async function sendMessage() {
+      let input = document.getElementById("userInput").value;
+      document.getElementById("chatbox").innerHTML += `<p><b>You:</b> ${input}</p>`;
+
+      const response = await fetch("https://api.openai.com/v1/chat/completions", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": "Bearer headers: {
+          "Content-Type": "application/json",
+          "Authorization": "Bearer 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"
+        "
+        },
+        body: JSON.stringify({
+          model: "gpt-3.5-turbo",
+          messages: [{ role: "user", content: input }]
+        })
+      });
+
+      const data = await response.json();
+
+      if (!response.ok || !data.choices || !data.choices.length) {
+        document.getElementById("chatbox").innerHTML += `<p><b>Bot:</b> [Error: ${data.error?.message || 'Unauthorized or no response'}]</p>`;
+        return;
+      }
+
+      const reply = data.choices[0].message.content;
+      document.getElementById("chatbox").innerHTML += `<p><b>Bot:</b> ${reply}</p>`;
+      document.getElementById("userInput").value = "";
+    }
+  </script>
+</body>
+</html>
