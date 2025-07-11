@@ -1,0 +1,2 @@
+# jde-chatbot
+JDE AND CHAT GPT INTEGRATION
